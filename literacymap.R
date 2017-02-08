@@ -1,15 +1,24 @@
 # Geocoding Early Literacy Resources in Pittsburgh
 
+#Required Libraries
 library(ggmap)
+library(leaflet)
+library(knitr)
+library(maps)
+library(sp)
 
 load.lit <- read.csv("./literacy-map-resources.csv")
-
 load.lit$fullAddress <- paste0(load.lit$Street.Address, ", Pittsburgh, PA ", load.lit$Zip.Code)
-
 load.lit$XY <- geocode(load.lit$fullAddress)
+test.load <- load.lit
 
-wa# load.snow_angel.1$Address_Street <- paste0(load.snow_angel.1$Address_Street,", Pittsburgh, PA ", load.snow_angel.1$ARC_ZIP)
-# 2
-# XY <- geocode(load.snow_angel.1$Address_Street)
-# 3
-# load.snow_angel <- cbind(load.snow_angel.1, XY) 
+XY <- geocode(test.load$fullAddress)
+load.lit <- cbind(load.lit,XY)
+load.lit <- test.load
+
+
+# Let's get this show on the road...
+
+map <- leaflet(data = load.lit) %>% setView(lng = -79.9959, lat = 40.4406, zoom = 12)
+map %>% addProviderTiles("CartoDB.Positron") %>% addMarkers(~lon, ~lat, popup = ~paste('<b>Program Name:</b>', load.lit$Program.Name, '<br><b>Location:</b>', load.lit$Resource.Name, '<br><b>Address:</b>', load.lit$fullAddress, '<br><b>Resource Type:</b>', load.lit$Resource.Type, '<br><b>Age Group:</b>', load.lit$Age.Population, '<br>', '<a href="',load.lit$Website,'">Website</a>' ))
+ 
