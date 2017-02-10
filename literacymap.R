@@ -8,6 +8,8 @@ library(maps)
 library(sp)
 library(shiny)
 
+full.lit <- read.csv("./geocoded_literacy_map.csv")
+
 ui <- fluidPage(
   leafletOutput("map")
 )
@@ -24,8 +26,6 @@ ui <- fluidPage(
 # 
 # write.csv(load.lit, "./geocoded_literacy_map.csv")
 
-full.lit <- read.csv("./geocoded_literacy_map.csv")
-
 server <- function(input, output, session) {
 
 # Let's get this show on the road...
@@ -36,12 +36,8 @@ output$map <- renderLeaflet({
   map %>% addProviderTiles("OpenStreetMap.HOT") %>% 
     addMarkers(~lon, ~lat, popup = ~paste('<b>Program Name:</b>', load.lit$Program.Name, '<br><b>Location:</b>', load.lit$Resource.Name, '<br><b>Address:</b>', load.lit$fullAddress, '<br><b>Resource Type:</b>', load.lit$Resource.Type, '<br><b>Age Group:</b>', load.lit$Age.Population, '<br>', '<a href="',load.lit$Website,'">Website</a>' ))
   
-})
+  })
 
-
-
-
- 
 } 
 
 shinyApp(ui, server)
