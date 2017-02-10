@@ -6,6 +6,7 @@ library(maps)
 library(sp)
 library(shiny) 
 
+full.lit <- read.csv("./geocoded_literacy_map.csv")
 
 
 ui <- (fluidPage(
