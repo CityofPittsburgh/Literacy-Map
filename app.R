@@ -12,7 +12,10 @@ full.lit <- read.csv("./geocoded_literacy_map.csv")
 ui <- (fluidPage(
   leafletOutput('map'),
   windowTitle = "Early Literacy Resources in Pittsburgh",
-  title = "Early Literacy Resources in Pittsburgh")
+  title = "Early Literacy Resources in Pittsburgh",
+  tags$style(type = "text/css", "#map {height: calc(100vh) !important;}")
+  
+)
 )
    
 # Define server logic required to draw map
@@ -39,4 +42,3 @@ server <- (function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
